@@ -2,9 +2,10 @@ import { useForm } from '../hooks/useForm'
 import { CustomInput } from './CustomInput'
 
 export function Authetication ({ ...props }) {
-  const { email, passord, handleChange } = useForm({ email: '', password: '' })
-  const handleSubmit = e =>{
+  const { email, password, handleChange } = useForm({ email: '', password: '' })
+  const handleSubmit = e => {
     e.preventDefault()
+    console.log(email, password)
   }
   return (
     <form onSubmit={handleSubmit} {...props}>
@@ -16,6 +17,7 @@ export function Authetication ({ ...props }) {
             type='email'
             name='email'
             onChange={handleChange}
+            required
           />
         </li>
         <li>
@@ -24,6 +26,7 @@ export function Authetication ({ ...props }) {
             type='password'
             name='password'
             onChange={handleChange}
+            required
           />
         </li>
         <li className='text-right'>

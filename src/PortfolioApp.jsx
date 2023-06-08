@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { Home, Authetication } from './components'
+import { auth, _signInWithEmailAndPassword, _signOut } from './helpers/auth_signin_password'
 
 function PortfolioApp () {
+  _signInWithEmailAndPassword(auth).then()
+  _signOut(auth).then()
   const [isLogin, setIsLogin] = useState(false)
   return (
     <>
