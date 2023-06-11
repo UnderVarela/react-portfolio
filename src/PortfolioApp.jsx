@@ -1,17 +1,30 @@
 import { useState } from 'react'
-import { Home, Authetication } from './components'
-import { auth, _signInWithEmailAndPassword, _signOut } from './helpers/auth_signin_password'
-
+import { Home, Authentication } from './components'
 function PortfolioApp () {
-  _signInWithEmailAndPassword(auth).then()
-  _signOut(auth).then()
-  const [isLogin, setIsLogin] = useState(false)
+  const [state, setState] = useState({
+    isLogin: false,
+    user: null
+  })
+
+  const { isLogin, user } = state
+
+  const handleAuthentication = (user) => {
+    console.log('Mi usuario', user)
+    setState({
+      isLogin: true,
+      user
+    })
+  }
+
+  const handleSignOut = (payload) => {
+    setState(payload)
+  }
   return (
     <>
       {
       isLogin
-        ? <Home />
-        : <Authetication className='w-1/2 p-5 border rounded shadow-xl min-w-max' />
+        ? <Home onSignOut={handleSignOut} user={user} />
+        : <Authentication onAuthentication={handleAuthentication} className='p-5 border rounded shadow-xl w-96' />
       }
     </>
   )
