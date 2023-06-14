@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useForm } from '../hooks/useForm'
 import { CustomButton } from './CustomButton'
 import { CustomInput } from './CustomInput'
@@ -9,8 +9,18 @@ export function Authentication ({ onAuthentication, ...props }) {
   const { email, password, handleChange } = useForm({ email: '', password: '' })
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const emailRef = useRef(null)
+  const passwordRef = useRef(null)
   const handleSubmit = e => {
     e.preventDefault()
+    if (!email.length) {
+      emailRef.current.focus()
+      return
+    }
+    if (!password.length) {
+      passwordRef.current.focus()
+      return
+    }
     setIsLoading(true)
     _signInWithEmailAndPassword(auth, email, password)
       .then(user => {
@@ -28,21 +38,21 @@ export function Authentication ({ onAuthentication, ...props }) {
       <ul className='grid gap-2'>
         <li>
           <CustomInput
+            ref={emailRef}
             textLabel='Correo electrónico'
             placeholder='xurxo@webferrol.com'
             type='email'
             name='email'
             onChange={handleChange}
-            required
           />
         </li>
         <li>
           <CustomInput
+            ref={passwordRef}
             textLabel='Contraseña'
             type='password'
             name='password'
             onChange={handleChange}
-            required
           />
         </li>
         <li className='text-right'>
