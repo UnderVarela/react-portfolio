@@ -2,7 +2,7 @@
 import { app } from './firebase'
 import { getAuth, signOut, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
 
-const auth = getAuth()
+const auth = getAuth(app)
 
 async function _signInWithEmailAndPassword (auth, email = 'info@webferrol.com', password = 'Tq0xuxvBMs') {
   try {
