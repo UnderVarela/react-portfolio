@@ -1,6 +1,8 @@
 import { CustomButton } from './components/CustomButton'
-import { auth } from './helpers/auth_signin_password'
+import { auth } from './helpers/firebase'
 import { useUser } from './hooks/useUser'
+
+
 
 function PortfolioApp2 () {
   const { user, error, _signInWithEmailAndPassword, _signOut, isloading } = useUser(auth)

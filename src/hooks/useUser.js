@@ -1,40 +1,71 @@
-import { useState } from 'react'
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { useEffect, useState } from 'react'
+import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth'
 
-export function useUser (auth, email, password) {
-  const [user, setUser] = useState(null)
-  const [error, setError] = useState(null)
-  const [isloading, setIsloading] = useState(false)
+const initivalValue = JSON.parse(import.meta.env.VITE_INITIAL_VALUE_USER)
 
-  const _signInWithEmailAndPassword = async (email, password) => {
+export function useUser (auth) {
+  const [user, setUser] = useState(initivalValue)
+
+  async function _signInWithEmailAndPassword (email = 'info@webferrol.com', password = 'Tq0xuxvBMs') {
+    const clone = structuredClone(initivalValue)
+    clone.isLoading = true
     try {
-      setIsloading(true)
       const userCredential = await signInWithEmailAndPassword(auth, email, password)
-      const { user } = userCredential
-      // Signed in
-      setError(null)
-      setUser(user)
-    } catch (setError) {
+      clone.user = userCredential.user
+    } catch (error) {
+      clone.error = error
     } finally {
-      setIsloading(false)
+      clone.isLoading = false
+      setUser(clone)
     }
   }
 
-  const _signOut = () => {
-    setIsloading(true)
-    signOut(auth).then(() => {
-      setError(null)
-      setUser(null)
-    })
-      .catch(setError)
-      .finally(() => setIsloading(false))
+  async function _signOut () {
+    const clone = structuredClone(initivalValue)
+    clone.isLoading = true
+    try {
+      await signOut(auth)
+    } catch (error) {
+      clone.error = error
+    } finally {
+      clone.isLoading = false
+      setUser(clone)
+    }
   }
+
+  async function _onAuthStateChanged () {
+    const clone = structuredClone(initivalValue)
+    // -> Resuesta positiva(resolve), negativa(reject) <- //
+    try {
+      const user = await new Promise((resolve, reject) => {
+        // -> Observador que vigilia para que se cierre automatico la sesion pasado un tiempo o cuando salga de la sesion/cierra pestaña <- //
+        onAuthStateChanged(
+          auth,
+          (user) => {
+            if (user) {
+              resolve(user)
+            }
+          },
+          (e) => reject(e)
+        )
+      })
+      clone.user = user
+    } catch (error) {
+      clone.error = error
+    } finally {
+      setUser(clone)
+    }
+  }
+
+  useEffect(() => {
+    _onAuthStateChanged()
+  }, [])
 
   return {
     _signInWithEmailAndPassword,
     _signOut,
-    error,
-    isloading,
-    user
+    error: user.error,
+    isLoading: user.isLoading,
+    user: user.user
   }
 }
