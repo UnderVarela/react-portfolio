@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth'
 
 const initivalValue = JSON.parse(import.meta.env.VITE_INITIAL_VALUE_USER)
 
 export function useUser (auth) {
   const [user, setUser] = useState(initivalValue)
+  const unsubscribe = useRef()
 
   async function _signInWithEmailAndPassword (email = 'info@webferrol.com', password = 'Tq0xuxvBMs') {
     const clone = structuredClone(initivalValue)
@@ -39,7 +40,7 @@ export function useUser (auth) {
     try {
       const user = await new Promise((resolve, reject) => {
         // -> Observador que vigilia para que se cierre automatico la sesion pasado un tiempo o cuando salga de la sesion/cierra pestaña <- //
-        onAuthStateChanged(
+        unsubscribe.current = onAuthStateChanged(
           auth,
           (user) => {
             if (user) {
@@ -59,6 +60,7 @@ export function useUser (auth) {
 
   useEffect(() => {
     _onAuthStateChanged()
+    return unsubscribe.current
   }, [])
 
   return {
