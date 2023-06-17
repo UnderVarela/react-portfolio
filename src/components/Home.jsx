@@ -1,15 +1,9 @@
 import PropTypes from 'prop-types'
 import { CustomButton } from './CustomButton'
-import { auth, _signOut } from '../helpers/auth_signin_password'
 export function Home ({ user, onSignOut }) {
-  const { email } = user
+  const { email } = user || false
   const handleClick = () => {
-    _signOut(auth).then(() => {
-      onSignOut({
-        isLogin: false,
-        user: null
-      })
-    })
+    onSignOut()
   }
   return (
     <div className='container p-4 mx-auto'>

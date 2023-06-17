@@ -36,14 +36,14 @@ export function useUser (auth) {
 
   async function _onAuthStateChanged () {
     const clone = structuredClone(initivalValue)
-    // -> Resuesta positiva(resolve), negativa(reject) <- //
     try {
       const user = await new Promise((resolve, reject) => {
-        // -> Observador que vigilia para que se cierre automatico la sesion pasado un tiempo o cuando salga de la sesion/cierra pestaña <- //
+        // Con un observador, te aseguras de que el objeto Auth no esté en un estado intermedio, como la inicialización, cuando obtengas el usuario actual.
         unsubscribe.current = onAuthStateChanged(
           auth,
           (user) => {
             if (user) {
+              // console.log(`%cUser: ${JSON.stringify(user)}`, 'font-size: 1.4em;color: yellow; background-color: black')
               resolve(user)
             }
           },
