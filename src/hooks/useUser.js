@@ -11,8 +11,8 @@ export function useUser (auth) {
     const clone = structuredClone(initivalValue)
     clone.isLoading = true
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password)
-      clone.user = userCredential.user
+      const { user: { providerData } } = await signInWithEmailAndPassword(auth, email, password)
+      clone.user = providerData.at(0)
     } catch (error) {
       clone.error = error
     } finally {
@@ -43,8 +43,9 @@ export function useUser (auth) {
           auth,
           (user) => {
             if (user) {
-              // console.log(`%cUser: ${JSON.stringify(user)}`, 'font-size: 1.4em;color: yellow; background-color: black')
-              resolve(user)
+              // console.table(user)
+              const { providerData } = user
+              resolve({ ...providerData.at(0) })
             }
           },
           (e) => reject(e)
