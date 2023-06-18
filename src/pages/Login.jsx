@@ -1,10 +1,14 @@
 import { useRef } from 'react'
+import { CustomInput, CustomButton, AlertError } from '../components'
+import { useUser } from '../hooks/useUser'
 import { useForm } from '../hooks/useForm'
-import { CustomButton, CustomInput, AlertError } from './'
-import PropTypes from 'prop-types'
+import { auth } from '../helpers/firebase'
+import { Navigate } from 'react-router'
 
-export function Authentication ({ onAuthentication, isLoading, error, ...props }) {
+export function Login () {
   const { email, password, handleChange } = useForm({ email: '', password: '' })
+  const { _signInWithEmailAndPassword, error, isLoading, user } = useUser(auth)
+  const { message = '' } = error || false
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
   const handleSubmit = e => {
@@ -17,10 +21,11 @@ export function Authentication ({ onAuthentication, isLoading, error, ...props }
       passwordRef.current.focus()
       return
     }
-    onAuthentication({ email, password })
+    _signInWithEmailAndPassword(email, password)
   }
+
   return (
-    <form onSubmit={handleSubmit} {...props}>
+    <form onSubmit={handleSubmit}>
       <ul className='grid gap-2'>
         <li>
           <CustomInput
@@ -46,14 +51,9 @@ export function Authentication ({ onAuthentication, isLoading, error, ...props }
             Acceso
           </CustomButton>
         </li>
-        {error && <li><AlertError>{error}</AlertError></li>}
+        {message && <li><AlertError>{message}</AlertError></li>}
       </ul>
+      {user && <Navigate to='/' />}
     </form>
   )
-}
-
-Authentication.propTypes = {
-  onAuthentication: PropTypes.func,
-  isLoading: PropTypes.bool,
-  error: PropTypes.string
 }

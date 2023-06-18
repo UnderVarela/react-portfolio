@@ -1,3 +1,5 @@
 export * from './Authentication'
 export * from './CustomInput'
+export * from './CustomButton'
+export * from './AlertError'
 export * from './Home'
