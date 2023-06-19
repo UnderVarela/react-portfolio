@@ -11,8 +11,8 @@ export function useUser (auth) {
     const clone = structuredClone(initivalValue)
     clone.isLoading = true
     try {
-      const { user: { providerData } } = await signInWithEmailAndPassword(auth, email, password)
-      clone.user = providerData.at(0)
+      const { user } = await signInWithEmailAndPassword(auth, email, password)
+      clone.user = { uid: user.uid, email: user.email }
     } catch (error) {
       clone.error = error
     } finally {
@@ -34,29 +34,19 @@ export function useUser (auth) {
     }
   }
 
-  async function _onAuthStateChanged () {
-    const clone = structuredClone(initivalValue)
-    try {
-      const user = await new Promise((resolve, reject) => {
-        // Con un observador, te aseguras de que el objeto Auth no esté en un estado intermedio, como la inicialización, cuando obtengas el usuario actual.
-        unsubscribe.current = onAuthStateChanged(
-          auth,
-          (user) => {
-            if (user) {
-              // console.table(user)
-              const { providerData } = user
-              resolve({ ...providerData.at(0) })
-            }
-          },
-          (e) => reject(e)
-        )
-      })
-      clone.user = user
-    } catch (error) {
-      clone.error = error
-    } finally {
-      setUser(clone)
-    }
+  function _onAuthStateChanged () {
+    unsubscribe.current = onAuthStateChanged(
+      auth,
+      (user) => {
+        if (user) {
+          // console.table(user)
+          const clone = structuredClone(initivalValue)
+          clone.user = { uid: user.uid, email: user.email }
+          clone.user = user
+          setUser(clone)
+        }
+      }
+    )
   }
 
   useEffect(() => {
@@ -69,6 +59,8 @@ export function useUser (auth) {
     _signOut,
     error: user.error,
     isLoading: user.isLoading,
-    user: user.user
+    user: user.user,
+    email: user.user.email,
+    uid: user.user.uid
   }
 }

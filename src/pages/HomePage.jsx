@@ -3,8 +3,7 @@ import { auth } from '../helpers/firebase'
 import { useUser } from '../hooks/useUser'
 
 export function HomePage () {
-  const { _signOut, user } = useUser(auth)
-  const { email } = user || false
+  const { _signOut, email } = useUser(auth)
   const handleClick = () => {
     _signOut()
   }

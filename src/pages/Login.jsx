@@ -7,7 +7,7 @@ import { Navigate } from 'react-router'
 
 export function Login () {
   const { email, password, handleChange } = useForm({ email: '', password: '' })
-  const { _signInWithEmailAndPassword, error, isLoading, user } = useUser(auth)
+  const { _signInWithEmailAndPassword, error, isLoading, email: emailUser } = useUser(auth)
   const { message = '' } = error || false
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
@@ -53,7 +53,7 @@ export function Login () {
         </li>
         {message && <li><AlertError>{message}</AlertError></li>}
       </ul>
-      {user && <Navigate to='/' />}
+      {emailUser && <Navigate to='/' />}
     </form>
   )
 }
