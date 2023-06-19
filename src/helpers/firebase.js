@@ -8,13 +8,13 @@ import { getAuth } from 'firebase/auth'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyBIBR1h2RY_a0bxkjd0X1kClHrS3WCLwSk',
-  authDomain: 'portfolio-xurxo-project.firebaseapp.com',
-  databaseURL: 'https://portfolio-xurxo-project-default-rtdb.europe-west1.firebasedatabase.app',
-  projectId: 'portfolio-xurxo-project',
-  storageBucket: 'portfolio-xurxo-project.appspot.com',
-  messagingSenderId: '41739080142',
-  appId: '1:41739080142:web:3d1c7f4f2f7996dfcbdb9f'
+  apiKey: 'AIzaSyBer3u9UeKq6rr3ThZ-YA84JAyK0dWIXW8',
+  authDomain: 'webferrol-app.firebaseapp.com',
+  projectId: 'webferrol-app',
+  storageBucket: 'webferrol-app.appspot.com',
+  messagingSenderId: '333482588665',
+  appId: '1:333482588665:web:92ed7fba0d6376a9b1a528',
+  measurementId: 'G-0DVHLVC3CQ'
 }
 
 // Initialize Firebase
