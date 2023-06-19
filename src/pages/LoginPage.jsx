@@ -5,7 +5,7 @@ import { useForm } from '../hooks/useForm'
 import { auth } from '../helpers/firebase'
 import { Navigate } from 'react-router'
 
-export function Login () {
+export function LoginPage () {
   const { email, password, handleChange } = useForm({ email: '', password: '' })
   const { _signInWithEmailAndPassword, error, isLoading, email: emailUser } = useUser(auth)
   const { message = '' } = error || false

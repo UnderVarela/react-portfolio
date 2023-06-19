@@ -39,10 +39,9 @@ export function useUser (auth) {
       auth,
       (user) => {
         if (user) {
-          // console.table(user)
           const clone = structuredClone(initivalValue)
           clone.user = { uid: user.uid, email: user.email }
-          clone.user = user
+          // console.table(clone.user)
           setUser(clone)
         }
       }
@@ -59,7 +58,7 @@ export function useUser (auth) {
     _signOut,
     error: user.error,
     isLoading: user.isLoading,
-    user: user.user,
+    // user: user.user,
     email: user.user.email,
     uid: user.user.uid
   }
