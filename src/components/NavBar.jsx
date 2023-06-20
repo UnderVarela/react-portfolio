@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
-export const Navbar = ({ navTitle = 'Portafolio' }) => {
+import { CustomButton } from './CustomButton'
+export const Navbar = ({ navTitle = 'Portafolio', handleClick = () => {} }) => {
   return (
     <nav className='flex justify-between w-screen p-4 bg-gray-800'>
       <div className='flex items-center flex-shrink-0 mr-6 text-white'>
@@ -20,6 +21,7 @@ export const Navbar = ({ navTitle = 'Portafolio' }) => {
         >
           Login
         </NavLink>
+        <CustomButton onClick={handleClick}>Cerrar sesión</CustomButton>
       </div>
     </nav>
   )
