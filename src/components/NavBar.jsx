@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
+import { useContext } from 'react'
 import { CustomButton } from './CustomButton'
-export const Navbar = ({ navTitle = 'Portafolio', onSignOut, cod }) => {
+import { UserContext } from '../context/UserContext'
+export const Navbar = ({ navTitle = 'Portafolio' }) => {
+  const { _signOut, uid } = useContext(UserContext)
   const handleClick = () => {
-    onSignOut()
+    _signOut()
   }
   return (
     <nav className='flex justify-between w-screen p-4 bg-gray-800'>
@@ -18,20 +21,23 @@ export const Navbar = ({ navTitle = 'Portafolio', onSignOut, cod }) => {
         >
           Home
         </NavLink>
-        <NavLink
-          to='/login'
-          className={({ isActive, isPending }) => `mr-4 ${isActive ? 'text-blue-200' : 'text-white'} hover:text-gray-400`}
-        >
-          Login
-        </NavLink>
-        {cod && <CustomButton onClick={handleClick}>Cerrar sesión</CustomButton>}
+        {
+          !uid
+            ? (
+              <NavLink
+                to='/login'
+                className={({ isActive, isPending }) => `mr-4 ${isActive ? 'text-blue-200' : 'text-white'} hover:text-gray-400`}
+              >
+                Login
+              </NavLink>
+              )
+            : <CustomButton onClick={handleClick}>Cerrar sesión</CustomButton>
+        }
       </div>
     </nav>
   )
 }
 
 Navbar.propTypes = {
-  navTitle: PropTypes.string,
-  onSignOut: PropTypes.func,
-  cod: PropTypes.string
+  navTitle: PropTypes.string
 }

@@ -4,10 +4,9 @@ import { Outlet } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
 
 export function MainTemplate () {
-  const { _signOut, uid } = useContext(UserContext)
   return (
     <>
-      <Navbar onSignOut={_signOut} cod={uid} />
+      <Navbar />
       <main className='flex-1 p-4'>
         <Outlet />
       </main>
