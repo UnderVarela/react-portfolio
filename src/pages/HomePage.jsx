@@ -1,21 +1,15 @@
+import { useContext } from 'react'
 import { useLoaderData } from 'react-router-dom'
-import { CustomButton } from '../components'
-import { auth } from '../helpers/firebase'
-// import { useCloudFirestore } from '../hooks/useCloudFirestore'
-import { useUser } from '../hooks/useUser'
+import { UserContext } from '../context/UserContext'
 
 export function HomePage () {
-  const { _signOut, email } = useUser(auth)
-  // const { docs } = useCloudFirestore('workexperiences')
+  const { email } = useContext(UserContext)
   const { docs } = useLoaderData()
-  const handleClick = () => {
-    _signOut()
-  }
 
   return (
     <div className='container p-4 mx-auto'>
       <h1 className='mb-4 text-3xl font-bold text-center'>Mi portafolio</h1>
-      {email && <p className='mb-8 text-lg text-center'>Bienvenido {email} <CustomButton onClick={handleClick}>Cerrar sesión</CustomButton></p>}
+      {email && <p className='mb-8 text-lg text-center'>Bienvenido {email} </p>}
       <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
         {
           docs?.map(({ idDoc, code, comments }) => (
