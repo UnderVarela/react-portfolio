@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import { ErrorTemplate, MainTemplate } from '../templates'
 import { HomePage, LoginPage } from '../pages'
 import { getDocuments } from '../helpers/cloud-firestore'
+import { PrivateRoute } from '../components'
 
 async function getExperiences () {
   const docs = await getDocuments('workExperience')
@@ -27,7 +28,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'workexperiences',
-        element: <div>Experiencias</div>
+        element: <PrivateRoute><div>Experiencias</div></PrivateRoute>
       }
     ]
   }

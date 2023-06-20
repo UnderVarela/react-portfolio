@@ -21,6 +21,12 @@ export const Navbar = ({ navTitle = 'Portafolio' }) => {
         >
           Home
         </NavLink>
+        <NavLink
+          to='/workexperiences'
+          className={({ isActive, isPending }) => `mr-4 ${isActive ? 'text-blue-200' : 'text-white'} hover:text-gray-400`}
+        >
+          Experiencia
+        </NavLink>
         {
           !uid
             ? (

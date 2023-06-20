@@ -1,10 +1,15 @@
-import { useContext } from 'react';
-import { Redirect, Route } from 'react-router';
-import { UserContext } from '../context/UserContext';
+import { useContext } from 'react'
+import { Navigate } from 'react-router-dom'
+import PropTypes from 'prop-types'
+
+import { UserContext } from '../context/UserContext'
 
 export function PrivateRoute ({ children }) {
-    const context = useContext(UserContext)
-    return children
+  const { uid } = useContext(UserContext)
+  if (!uid) return <Navigate to='/login' />
+  return children
 }
 
-export default PrivateRoute
+PrivateRoute.propTypes = {
+  children: PropTypes.any
+}
