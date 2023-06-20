@@ -50,7 +50,7 @@ export function useUser (auth) {
 
   useEffect(() => {
     const unsubscribe = _onAuthStateChanged()
-    return unsubscribe.current
+    return unsubscribe
   }, [])
 
   return {
