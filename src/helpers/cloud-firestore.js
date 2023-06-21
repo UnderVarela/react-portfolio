@@ -1,5 +1,6 @@
+// Documentación: https://firebase.google.com/docs/firestore?hl=es-419
 import { db } from './firebase'
-import { collection, addDoc, getDocs, getDoc, deleteDoc, deleteField, doc, updateDoc, query, where, orderBy } from 'firebase/firestore'
+import { collection, addDoc, getDocs, getDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore'
 
 /**
  *
@@ -43,43 +44,6 @@ export const getDocument = async (collectionName, reference) => {
 }
 
 /**
- * @param {String} $collectionName Nombre de la colección
- * @param {String} $field Busqueda del campo que se desea buscar
- * @param {any} $value Valor buscado en la consulta
- * @returns {Array} Array de objetos con los documentos encontrados o array vacío si no encuentra nada
- */
-export const getDocumentsWhere = async ($collectionName, $field, $value) => {
-  const tmp = []
-  const q = query(collection(db, $collectionName), where($field, '==', $value))
-  const querySnapshot = await getDocs(q)
-  querySnapshot.forEach((doc) => {
-    tmp.push({
-      idDoc: doc.id,
-      ...doc.data() // DESTRUCTURING
-    })
-  })
-  return tmp
-}
-
-/**
- * @param {String} $collectionName Nombre de la colección
- * @param {String} $orderBy Campo por el que se desea ordenar la búsqueda
- * @returns {Array} Array de objetos con los documentos encontrados o array vacío si no encuentra nada
- */
-export const getDocumentsOrderBy = async ($collectionName, $orderBy) => {
-  const tmp = []
-  const q = query(collection(db, $collectionName), orderBy($orderBy))
-  const querySnapshot = await getDocs(q)
-  querySnapshot.forEach((doc) => {
-    tmp.push({
-      idDoc: doc.id,
-      ...doc.data() // DESTRUCTURING
-    })
-  })
-  return tmp
-}
-
-/**
  *
  * @param {string} collection nombre de la colección en la que se encuentra el archivo que se va a borrar
  * @param {string} uid código del documento que vamos a borrar
@@ -96,14 +60,3 @@ export const deleteDocument = async (collection, uid) => {
  * @param {Object} data
  */
 export const updateDocument = async (uid, collection, data = {}) => await updateDoc(doc(db, collection, uid), data)
-
-/**
- * Función que elimina un campo de la bae de datos
- *
- * @param {string} uid optiene la uid del documento
- * @param {string} collection
- * @param {string} field
- */
-export const deleteFieldDocument = async (uid, collection) => await updateDoc(
-  doc(db, collection, uid),
-  { especies: deleteField() })
