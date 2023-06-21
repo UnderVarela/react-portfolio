@@ -24,6 +24,8 @@ export function LoginPage () {
     _signInWithEmailAndPassword(email, password)
   }
 
+  if (emailUser) return <Navigate to='/' />
+
   return (
     <form onSubmit={handleSubmit}>
       <ul className='grid gap-2'>
@@ -53,7 +55,6 @@ export function LoginPage () {
         </li>
         {message && <li><AlertError>{message}</AlertError></li>}
       </ul>
-      {emailUser && <Navigate to='/' />}
     </form>
   )
 }

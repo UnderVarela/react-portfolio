@@ -9,7 +9,10 @@ export function useUser (auth) {
 
   async function _signInWithEmailAndPassword (email = 'info@webferrol.com', password = 'Tq0xuxvBMs') {
     const clone = structuredClone(initivalValue)
-    clone.isLoading = true
+    setUser({
+      ...clone,
+      isLoading: true
+    })
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password)
       clone.user = { uid: user.uid, email: user.email }
