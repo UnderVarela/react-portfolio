@@ -24,10 +24,10 @@ export function HomePage () {
           !docs?.length
             ? <Loader />
             : (
-                docs?.map(({ idDoc, code, comments }) => (
+                docs?.map(({ idDoc, titulo }) => (
                   <div key={idDoc} className='p-4 bg-white rounded-lg shadow-md'>
-                    <h2 className='mb-2 text-xl font-bold'>{code}</h2>
-                    <section className='text-gray-700' dangerouslySetInnerHTML={{ __html: `${comments}` }} />
+                    <h2 className='mb-2 text-xl font-bold'>{idDoc}</h2>
+                    <section className='text-gray-700' dangerouslySetInnerHTML={{ __html: `${titulo}` }} />
                   </div>
                 ))
               )

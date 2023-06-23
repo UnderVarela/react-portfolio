@@ -3,9 +3,10 @@ import { ErrorTemplate, MainTemplate } from '../templates'
 import { ExperiencePage, HomePage, LoginPage } from '../pages'
 import { getDocuments } from '../helpers/cloud-firestore'
 import { PrivateRoute } from '../components'
+import { ExperiencePage } from '../pages/ExperiencePage'
 
 async function getExperiences () {
-  const docs = await getDocuments('workExperience')
+  const docs = await getDocuments('experiencias')
   return {
     docs
   }
